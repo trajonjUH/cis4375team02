@@ -12,16 +12,16 @@ export default {
     </div>
 
     <div class="social-icons">
-      <a href="https://www.instagram.com/trajon.j/">
+      <a href="/">
         <img src="src/assets/instagram.png" alt="Instagram" width="20" height="20"/>
       </a>
-      <a href="https://www.tiktok.com/@trajonj">
+      <a href="/">
         <img src="src/assets/tik-tok.png" alt="tiktok" width="20" height="20"/>
       </a>
-      <a href="https://twitter.com/trajonj">
+      <a href="/">
         <img src="src/assets/twitter.png" alt="twitter" width="20" height="20"/>
       </a>
-      <a href="https://www.youtube.com/channel/UCDd0g1jvbjNzlEDXATTdHpQ">
+      <a href="/">
         <img src="src/assets/youtube.png" alt="youtube" width="20" height="20"/>
       </a>
       <a href="trajon2011@gmail.com">
