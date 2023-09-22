@@ -11,9 +11,6 @@ export default {
 
 <template>
   <div class="contentpage">
-      <img src="../assets/dummy4.jpg" class="showcase" alt="showcase1">
-      <img src="../assets/dummy5.jpg" class="showcase" alt="showcase1">
-      <img src="../assets/dummy6.jpg" class="showcase" alt="showcase1">
   </div>
   <footer>
     <FooterComponent />

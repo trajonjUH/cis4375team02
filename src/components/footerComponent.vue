@@ -41,7 +41,7 @@ export default {
 .social-icons a {
   display: inline-block;
   margin: 0 10px;
-  color: #ffffff; /* Set the desired color */
+  color: #076BC1; /* Set the desired color */
 }
 
 .social-icons img {
@@ -54,6 +54,6 @@ export default {
 }
 
 a {
-    color: #FFFF; /* Replace with your desired color */
+    color: #076BC1; /* Replace with your desired color */
   }
 </style>

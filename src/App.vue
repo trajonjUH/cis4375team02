@@ -1,7 +1,7 @@
 <template>
     <div>
       <!-- Bootstrap based Nav bar -->
-      <nav class="navbar navbar-expand navbar-dark bg-dark">
+      <nav class="navbar navbar-expand navbar-dark navbar-custom-color">
         <div class="container d-flex align-items-center">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
@@ -72,8 +72,8 @@
           <a class="navbar-brand" href="#">
             <img
               alt="Rhurbo Logo"
-              src="./assets/rhurbo_logo_b.png"
-              width="48"
+              src="./assets/PORTintelligenceZDF.png"
+              width="248"
               height="48"
               class="d-inline-block align-text-top"
             />
@@ -132,15 +132,15 @@ export default {
 
 <style scoped>
 html, body {
-  background-color: #1b1b1b;
+  background-color: #076BC1;
   }
 body {
-  color: #d4d4d4de;
+  color: #00000000;
   font-size: 14px;
       /* Replace #333333 with your desired font color */
 }
 h1, h2, h3 {
-  color: #d4d4d4de;
+  color: #076BC1;
   font-size: 17px;
       /* Replace #333333 with your desired font color */
 }
@@ -162,16 +162,19 @@ a {
   font-family: 'Source Sans Pro', sans-serif;
 }
 .dropdown-menu {
-  background-color: #212529;
+  background-color: #076BC1;
   width: auto !important;
   min-width: 100% !important;
 }
 
 .dropdown-menu:hover {
-  background-color: #212529;
+  background-color: #076BC1;
 }
 .navbar {
   height: 70px;
+}
+.navbar-custom-color {
+  background-color: #076BC1;
 }
 .navbar-brand {
   flex: 1; /* Expand to fill available space */
