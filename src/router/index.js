@@ -9,29 +9,9 @@ const router = createRouter({
       component: () => import('../views/homeView.vue')
     },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import('../views/aboutView.vue')
-    },
-    {
-      path: '/contact',
-      name: 'contact',
-      component: () => import('../views/contactView.vue')
-    },
-    {
-      path: '/2D',
-      name: '2D',
-      component: () => import('../views/2Dview.vue')
-    },
-    {
-      path: '/3D',
-      name: '3D',
-      component: () => import('../views/3Dview.vue')
-    },
-    {
-      path: '/2Dprices',
-      name: '2Dprices',
-      component: () => import('../views/2DpricesView.vue')
+      path: '/Drivers',
+      name: 'Drivers',
+      component: () => import('../views/Drivers.vue')
     },
     {
       path: '/3Dprices',
@@ -44,9 +24,9 @@ const router = createRouter({
       component: () => import('../views/T.O.Sview.vue')
     },
     {
-      path: '/form',
-      name: 'form',
-      component: () => import('../views/formView.vue')
+      path: '/Orders',
+      name: 'Orders',
+      component: () => import('../views/Orders.vue')
     }
   ]
 })

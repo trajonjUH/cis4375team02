@@ -263,15 +263,15 @@ export default {
   
 <style>
   html, body {
-    background-color: #1b1b1b;
+    background-color: #ECF4FC;
   }
   body {
-      color: #d4d4d4de;
+      color: #002385;
       font-size: 14px;
       /* Replace #333333 with your desired font color */
     }
   h1, h2, h3 {
-      color: #d4d4d4de;
+      color: #002385;
       font-size: 17px;
       /* Replace #333333 with your desired font color */
     }

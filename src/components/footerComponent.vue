@@ -11,7 +11,7 @@ export default {
       <p>This website was made by <a href="https://www.linkedin.com/in/trajon/">Christian Johnson</a></p>
     </div>
 
-    <div class="social-icons">
+    <!--<div class="social-icons">
       <a href="/">
         <img src="src/assets/instagram.png" alt="Instagram" width="20" height="20"/>
       </a>
@@ -27,7 +27,7 @@ export default {
       <a href="trajon2011@gmail.com">
         <img src="src/assets/email.png" alt="email" width="20" height="20"/>
       </a>
-    </div>
+    </div>-->
   </footer>
 </template>
 
@@ -51,9 +51,16 @@ export default {
 
 .credit-goes-to {
   text-align: center;
+  color: #002385;
 }
 
 a {
-    color: #076BC1; /* Replace with your desired color */
+    color: #002385; /* Replace with your desired color */
   }
+
+/*.custom-footer {
+   background-color: #076BC1; 
+   color: #FFFF; 
+   width: 100%;
+}*/
 </style>

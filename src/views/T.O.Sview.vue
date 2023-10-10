@@ -80,7 +80,7 @@ export default {
       /* Replace #333333 with your desired font color */
   }
   h1, h2, h3 {
-      color: #076BC1;
+      color: #002385;
       font-size: 17px;
       /* Replace #333333 with your desired font color */
   }
