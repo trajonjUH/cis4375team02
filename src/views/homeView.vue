@@ -112,7 +112,7 @@ h1, h2, h3 {
   display: flex;
   justify-content: center; /* Horizontally center items */
   align-items: center; /* Vertically center items */
-  height: 50vh; /* Make the container take the full viewport height */
+  height: 35vh; /* Make the container take the full viewport height */
 }
 .home-icons {
   width: 250px;
@@ -134,14 +134,14 @@ h1, h2, h3 {
     display: flex;
     justify-content: center;
     order: -1;
-    width: 400px;
+    width: 600px;
     height: 40px;
   }
   .navigation-tabs-body {
     background-color: #c0d9f0;
     padding: 20px;
-    width: 400px;
-    height: 400px;
+    width: 600px;
+    height: 200px;
     text-align: center;
     /*border: 2px solid #474747;*/
   }
