@@ -17,8 +17,11 @@ export default {
       try {
         await emailjs.sendForm('contact_service', 'contact_template', e.target,
         'x15gAetF1SfxBhF7x', {
-          name: this.name,
-          email: this.email,
+          fname: this.fname,
+          lname: this.lname,
+          empid: this.empid,
+          phone: this.phone,
+          date: this.date,
           message: this.message
         })
 
@@ -27,12 +30,16 @@ export default {
           console.log({error})
       }
       // Reset form field
-      this.name = ''
-      this.email = ''
+      this.fname = ''
+      this.lname = ''
+      this.empid = ''
+      this.phone = ''
+      this.date = ''
+      this.date = ''
       this.message = ''
     },
   },
-  name: 'ContactView',
+  name: 'Drivers',
   components: {
     FooterComponent
   }
@@ -42,66 +49,30 @@ export default {
 <template>
   <div class="contentpage">
     <form @submit.prevent="sendEmail">
-      <h2>Commission Options:</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras pulvinar condimentum varius. Curabitur euismod tempor purus eget imperdiet. 
-        Integer feugiat magna suscipit eros varius volutpat. Etiam dapibus nisl id erat lobortis convallis. 
-        Suspendisse scelerisque ultricies sodales. Aenean at fringilla nunc. Ut eu dictum massa. 
-        Nulla vehicula, enim id consequat scelerisque, diam urna aliquet urna, nec efficitur urna mi in tellus.</p>
-            <label for="name">Name:</label>
-            <input type="text" name="name" id="name" required>
+      <h2>Welcome to the Driver's page.</h2>
+        <p>Here is where you enter driver information records.</p>
+            <label for="fname">Enter Driver information using the form below.</label>
+              <input type="text" name="fname" placeholder="First Name" id="fname" required>
 
-            <label for="email">Email:</label>
-              <input type="email" name="email" id="email" required>
+            <label for="lname"> </label>
+              <input type="text" name="lname" placeholder="Last Name" id="lname" required>
 
-      <h2>Commission Options:</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras pulvinar condimentum varius. Curabitur euismod tempor purus eget imperdiet. 
-        Integer feugiat magna suscipit eros varius volutpat. Etiam dapibus nisl id erat lobortis convallis.</p>
-      
-  <div class="form-container">
-    <div class="form-group">
-      <label for="commtype1">Choose a car:</label>
-      <select name="commtype1" id="commtype1" class="custom-select">
-        <option value="volvo">Volvo</option>
-        <option value="saab">Saab</option>
-        <option value="opel">Opel</option>
-        <option value="audi">Audi</option>
-      </select>
-    </div>
+            <label for="empid"> </label>
+              <input type="number" name="empid" placeholder="Employee ID" id="empid" required>
 
-    <div class="form-group">
-      <label for="commtype1">Choose a car:</label>
-      <select name="commtype1" id="commtype1" class="custom-select">
-        <option value="volvo">Volvo</option>
-        <option value="saab">Saab</option>
-        <option value="opel">Opel</option>
-        <option value="audi">Audi</option>
-      </select>
-    </div>
-  </div>
-      <br>
-      <br>
+            <label for="phone"> </label>
+              <input type="tel" name="phone" placeholder="Phone Number" id="phone" required>
 
-      <label for="message">Message:</label>
-        <textarea id="message" name="message" rows="8" required></textarea>
-      <br>
+            <label for="Hiring Date">Hiring Date:</label>
+              <input type="date" name="date" placeholder="Hiring Date" id="date" required>
 
-      <h2>WIP</h2>
-        <input type="radio" id="yes" name="wip" value="yes">
-        <label for="yes" class="radio">yes</label>
-
-        <input type="radio" id="no" name="wip" value="no">
-        <label for="no" class="radio">no</label><br>
-
-      <h2>Commission Options:</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras pulvinar condimentum varius. Curabitur euismod tempor purus eget imperdiet. 
-        Integer feugiat magna suscipit eros varius volutpat. Etiam dapibus nisl id erat lobortis convallis.</p>
-      <br>
-
-      <button type="submit">Submit</button>
-      <div v-if="showConfirmation" class="confirmation-message">
-        <p>Message recieved.</p>
-      </div>
-
+            <label for="message">Comments:</label>
+              <textarea id="message" name="message" placeholder="Comments" rows="4" required></textarea>
+            
+            <button type="submit">Submit</button>
+              <div v-if="showConfirmation" class="confirmation-message">
+                <p>Message recieved.</p>
+              </div>
     </form>
   </div>
 
@@ -147,6 +118,9 @@ export default {
     }
     input[type="text"],
     input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="date"],
     textarea {
       font-family: Arial, Helvetica, sans-serif;
       width: 100%;
@@ -156,6 +130,7 @@ export default {
       color: #002385;
       border-radius: 2%;
       color: #002385;
+      margin-bottom: 10px;
     }
 
     input[type="checkbox"] {

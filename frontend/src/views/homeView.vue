@@ -6,7 +6,18 @@ export default {
   components: {
     FooterComponent
   },
-}
+  data() {
+    return {
+      selectedCity: 'London'
+    };
+  },
+  methods: {
+    selectCity(cityName) {
+      this.selectedCity = cityName;
+    }
+  }
+};
+
 </script>
 
 <template>
@@ -29,47 +40,36 @@ export default {
         <div class="navigation-container">
           <div class="navigation-tabs">
             <button
-              v-bind:class="{ 'navigation-tab': true, 'active': selectedCity === 'London' }"
-              @click="selectCity('London')"
+              v-bind:class="{ 'navigation-tab': true, 'active': selectedCity === 'Drivers' }"
+              @click="selectCity('Drivers')"
             >
-              London
+              Drivers
             </button>
+
             <button
-              v-bind:class="{ 'navigation-tab': true, 'active': selectedCity === 'Paris' }"
-              @click="selectCity('Paris')"
+              v-bind:class="{ 'navigation-tab': true, 'active': selectedCity === 'Orders' }"
+              @click="selectCity('Orders')"
             >
-              Paris
-            </button>
-            <button
-              v-bind:class="{ 'navigation-tab': true, 'active': selectedCity === 'Tokyo' }"
-              @click="selectCity('Tokyo')"
-            >
-              Tokyo
+              Orders
             </button>
           </div>
           
           <div class="navigation-tabs-body">
-            <div v-show="selectedCity === 'London'">
-              <h2>London</h2>
-              <p>London is the capital of England.</p>
-              <p><a class="btn btn-lg btn-primary my-custom-button" href="#">Learn more</a></p>
+            <div v-show="selectedCity === 'Drivers'">
+              <h2>How to use the drivers page:</h2>
+              <p></p>
+              <p><a class="btn btn-lg btn-primary my-custom-button" href="src/views/Drivers.vue">Begin</a></p>
             </div>
 
-            <div v-show="selectedCity === 'Paris'">
-              <h2>Paris</h2>
-              <p>Paris is the capital of France.</p>
-              <p><a class="btn btn-lg btn-primary my-custom-button" href="#">Learn more</a></p>
+            <div v-show="selectedCity === 'Orders'">
+              <h2>How to use the orders page:</h2>
+              <p></p>
+              <p><a class="btn btn-lg btn-primary my-custom-button" href="src/views/Orders.vue">Begin</a></p>
             </div>
 
-            <div v-show="selectedCity === 'Tokyo'">
-              <h2>Tokyo</h2>
-              <p>Tokyo is the capital of Japan.</p>
-              <p><a class="btn btn-lg btn-primary my-custom-button" href="#">Learn more</a></p>
-            </div>
           </div>
         </div>
   </div>
-
 
   </div>
 
@@ -92,13 +92,6 @@ h1, h2, h3 {
     font-size: 17px;
     /* Replace #333333 with your desired font color */
   }
-.contentpage {
-    font-size: 13px;
-    font-family: "Courier New", Courier, monospace;
-    min-height: 500px;
-    display: flex;
-    align-items: center;
-}
 .contentpage_05 {
     display: flex;
     justify-content: center; /* Center items horizontally */
@@ -128,7 +121,7 @@ h1, h2, h3 {
 /*NAVIGATION CSS*/
   .navigation-tabs {
     background-color: #1B1B1B;
-    color: white;
+    color: #002385;
     border: none;
     cursor: pointer;
     display: flex;
@@ -145,17 +138,17 @@ h1, h2, h3 {
     text-align: center;
     /*border: 2px solid #474747;*/
   }
-  .navigation-tab.active {
-    background-color: #477bad;
-  }
   .navigation-tab {
     text-align: center; /* Justify the text within the buttons */
     flex: 1; /* Distribute available space evenly among the buttons */
-    background-color: #6aa9e5;
-    color: white;
+    background-color: #ECF4FC;
+    color: #002385;
     padding: 10px 10px;
     border: none;
     cursor: pointer;
+  }
+  .navigation-tab.active {
+    background-color: #c0d9f0;
   }
   .navigation-container {
     display: flex;
@@ -167,7 +160,7 @@ h1, h2, h3 {
   }
   .my-custom-button {
     background-color: #e4e4e4;
-    color: #000000;
+    color: #002385;
     border: none;
     padding: 8px 16px;
     cursor: pointer;
@@ -181,7 +174,7 @@ h1, h2, h3 {
   }
   .my-custom-button:hover {
       background-color: #c0d9f0;
-      color: #000000;
+      color: #002385;
   }
 
 </style>
