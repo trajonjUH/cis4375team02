@@ -63,7 +63,7 @@ export default {
             <label for="phone"> </label>
               <input type="tel" name="phone" placeholder="Phone Number" id="phone" required>
 
-            <label for="Hiring Date">Hiring Date:</label>
+            <label for="Hiring_Date">Hiring Date:</label>
               <input type="date" name="date" placeholder="Hiring Date" id="date" required>
 
             <label for="message">Comments:</label>

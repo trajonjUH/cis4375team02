@@ -53,54 +53,33 @@ export default {
         Suspendisse scelerisque ultricies sodales. Aenean at fringilla nunc. Ut eu dictum massa. 
         Nulla vehicula, enim id consequat scelerisque, diam urna aliquet urna, nec efficitur urna mi in tellus.</p>
             <label for="name">Name:</label>
-            <input type="text" name="name" id="name" required>
+              <input type="text" name="name" id="name" required>
 
-            <label for="email">Email:</label>
-              <input type="email" name="email" id="email" required>
+            <label for="Expected_Date">Expected Delivery Date:</label>
+              <input type="date" name="date" placeholder="Hiring Date" id="date" required>
 
-      <h2>Commission Options:</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras pulvinar condimentum varius. Curabitur euismod tempor purus eget imperdiet. 
-        Integer feugiat magna suscipit eros varius volutpat. Etiam dapibus nisl id erat lobortis convallis.</p>
-      
-  <div class="form-container">
-    <div class="form-group">
-      <label for="commtype1">Choose a car:</label>
-      <select name="commtype1" id="commtype1" class="custom-select">
-        <option value="volvo">Volvo</option>
-        <option value="saab">Saab</option>
-        <option value="opel">Opel</option>
-        <option value="audi">Audi</option>
-      </select>
-    </div>
+            <label for="empid">Driver ID</label>
+              <input type="number" name="empid" placeholder="Employee ID" id="empid" required>
 
-    <div class="form-group">
-      <label for="commtype1">Choose a car:</label>
-      <select name="commtype1" id="commtype1" class="custom-select">
-        <option value="volvo">Volvo</option>
-        <option value="saab">Saab</option>
-        <option value="opel">Opel</option>
-        <option value="audi">Audi</option>
-      </select>
-    </div>
-  </div>
-      <br>
-      <br>
+            <label for="money">Estimated Total Cost:</label>
+              <input type="text" id="money" name="money" placeholder="$0.00" />
 
-      <label for="message">Message:</label>
-        <textarea id="message" name="message" rows="8" required></textarea>
-      <br>
+            <h2>Were there extra fees?</h2>
+              <input type="radio" id="yes" name="wip" value="yes">
+                <label for="yes" class="radio">yes</label>
 
-      <h2>WIP</h2>
-        <input type="radio" id="yes" name="wip" value="yes">
-        <label for="yes" class="radio">yes</label>
-
-        <input type="radio" id="no" name="wip" value="no">
-        <label for="no" class="radio">no</label><br>
-
-      <h2>Commission Options:</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras pulvinar condimentum varius. Curabitur euismod tempor purus eget imperdiet. 
-        Integer feugiat magna suscipit eros varius volutpat. Etiam dapibus nisl id erat lobortis convallis.</p>
-      <br>
+              <input type="radio" id="no" name="wip" value="no">
+                <label for="no" class="radio">no</label><br>
+                <br>
+            <label for="commtype1">Delivery Service</label><br>
+                <select name="commtype1" id="commtype1" class="custom-select">
+                  <option value="volvo">UPS</option>
+                  <option value="saab">FedEx</option>
+                  <option value="opel">USPS</option>
+                </select>
+            <br><br>
+            <label for="message">Message:</label>
+              <textarea id="message" name="message" rows="8" required></textarea>
 
       <button type="submit">Submit</button>
       <div v-if="showConfirmation" class="confirmation-message">
@@ -150,6 +129,8 @@ export default {
       padding-bottom: 100px;
       padding-top: 5px;
     }
+
+    
     input[type="text"],
     input[type="email"],
     textarea {
