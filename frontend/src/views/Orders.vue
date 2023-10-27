@@ -47,13 +47,37 @@ export default {
 <template>
   <div class="contentpage">
     <form @submit.prevent="sendEmail">
-      <h2>Commission Options:</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras pulvinar condimentum varius. Curabitur euismod tempor purus eget imperdiet. 
-        Integer feugiat magna suscipit eros varius volutpat. Etiam dapibus nisl id erat lobortis convallis. 
-        Suspendisse scelerisque ultricies sodales. Aenean at fringilla nunc. Ut eu dictum massa. 
-        Nulla vehicula, enim id consequat scelerisque, diam urna aliquet urna, nec efficitur urna mi in tellus.</p>
-            <label for="name">Name:</label>
-              <input type="text" name="name" id="name" required>
+      <h2>Welcome to the Orders page.</h2>
+        <p>Click on a logo to track an order.</p>
+          
+          <!--Tracking Logos-->
+          <div class="tracking_logos">
+              <a href="https://www.ups.com/track" style="padding: 10px;">
+                <img src="src/assets/ups_logo.png" alt="Link Image" style="width: 50px; height: 50px;">
+              </a>
+              <a href="https://tools.usps.com/go/TrackConfirmAction_input" style="padding: 10px;">
+                <img src="src/assets/usps_logo2.png" alt="Link Image" style="width: 77px; height: 50px;">
+              </a>  
+              <a href="https://www.fedex.com/en-us/tracking.html" style="padding: 10px;">
+                <img src="src/assets/fedex_logo.png" alt="Link Image" style="width: 168px; height: 50px;">
+              </a><br><br>
+          </div>
+          <br>
+          <!---->
+
+        <p>Fill out the form below with the order details to log the order in the database.</p>
+        <!--Form Entries Start Here-->
+            <label for="name">Tracking Number:</label>
+              <input type="text" name="name" id="name" required><br><br>
+
+            <div class="center-dropdown">
+              <label for="commtype1">Delivery Service</label><br>
+              <select name="commtype1" id="commtype1" class="custom-select">
+                  <option value="volvo">UPS</option>
+                  <option value="saab">FedEx</option>
+                  <option value="opel">USPS</option>
+              </select><br><br>        
+            </div>
 
             <label for="Expected_Date">Expected Delivery Date:</label>
               <input type="date" name="date" placeholder="Hiring Date" id="date" required>
@@ -64,29 +88,76 @@ export default {
             <label for="money">Estimated Total Cost:</label>
               <input type="text" id="money" name="money" placeholder="$0.00" />
 
+            <div class="center-radio">
             <h2>Were there extra fees?</h2>
-              <input type="radio" id="yes" name="wip" value="yes">
-                <label for="yes" class="radio">yes</label>
+            <input type="radio" id="yes" name="wip" value="yes">
+              <label for="yes" class="radio">yes</label>
+            <input type="radio" id="no" name="wip" value="no">
+              <label for="no" class="radio">no</label><br>
+            </div>
 
-              <input type="radio" id="no" name="wip" value="no">
-                <label for="no" class="radio">no</label><br>
-                <br>
-            <label for="commtype1">Delivery Service</label><br>
-                <select name="commtype1" id="commtype1" class="custom-select">
-                  <option value="volvo">UPS</option>
-                  <option value="saab">FedEx</option>
-                  <option value="opel">USPS</option>
-                </select>
-            <br><br>
             <label for="message">Message:</label>
               <textarea id="message" name="message" rows="8" required></textarea>
 
-      <button type="submit">Submit</button>
-      <div v-if="showConfirmation" class="confirmation-message">
-        <p>Message recieved.</p>
-      </div>
+            <button type="submit">Submit</button>
+            <div v-if="showConfirmation" class="confirmation-message">
+              <p>Message recieved.</p>
+            </div>
+          </form>
+        <!--Form Entries Ends Here-->
+  </div><!--contentpage div-->
 
-    </form>
+  <div class="dblist">
+      <main>
+        <div>
+          <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">
+            Welcome
+          </h1>
+          <br />
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
+            <div class="ml-10"></div>
+            <div class="flex flex-col col-span-2">
+              <table class="min-w-full shadow-md rounded">
+                <thead class="bg-gray-50 text-xl">
+                  <tr class="p-4 text-left">
+                    <th class="p-4 text-left">Event Name</th>
+                    <th class="p-4 text-left">Event Date</th>
+                    <th class="p-4 text-left">Number of Attendees</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-300">
+                  <tr @click="editEvent(event._id)" v-for="event in recentEvents" :key="event._id">
+                    <td class="p-2 text-left">{{ event.name }}</td>
+                    <td class="p-2 text-left">{{ formattedDate(event.date) }}</td>
+                    <td class="p-2 text-left">{{ event.attendees.length }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div>
+                <!--add &&!error back-->
+                <!-- Start of loading animation -->
+                <div class="mt-40" v-if="loading">
+                  <p class="text-6xl font-bold text-center text-gray-500 animate-pulse">
+                    Loading...
+                  </p>
+                </div>
+                <!-- End of loading animation -->
+
+                <!-- Start of error alert -->
+                <div class="mt-12 bg-red-50" v-if="error">
+                  <h3 class="px-4 py-1 text-4xl font-bold text-white bg-red-800">
+                    {{ error.title }}
+                  </h3>
+                  <p class="p-4 text-lg font-bold text-red-900">
+                    {{ error.message }}
+                  </p>
+                </div>
+                <!-- End of error alert -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
   </div>
 
     <footer>
@@ -98,41 +169,58 @@ export default {
   html, body {
     background-color: #ECF4FC;
     } 
-  body {
+    body {
       color: #002385;
       font-size: 14px;
+      font-weight: bold;
     }
-  h1, h2, h3 {
+    h1, h2, h3 {
       color: #002385;
       font-size: 16px;
       font-family: 'Courier New', Courier, monospace;
       margin-top: 25px;
       font-weight: bold;
     }
-  .contentpage {
+    .contentpage {
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 50vh;
     }
-  .form-container {
+    .dblist {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 50vh;
+    }
+    .form-container {
       width: 640px;
       height: 1435px;
     }
-  label {
+    label {
       font-family: 'Courier New', Courier, monospace;
       font-size: 16px;
     }
-
-  form {
+    form {
       width: 500px;
       padding-bottom: 100px;
       padding-top: 5px;
     }
-
-    
+    .tracking_logos{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+    .center-dropdown {
+    text-align: center; /* Horizontally center the content */
+    }
+    .center-radio{
+    text-align: center; /* Horizontally center the content */
+    }
     input[type="text"],
     input[type="email"],
+    input[type="date"],
+    input[type="number"],
     textarea {
       font-family: Arial, Helvetica, sans-serif;
       width: 100%;
@@ -175,7 +263,8 @@ export default {
     width: 500px;
     height: 30;
     }
-    button[type="submit"] {
+    button[type="submit"],
+    button[type="menu"] {
     background-color: #6aa9e5;
     color: #002385;
     border: none;
@@ -195,9 +284,10 @@ export default {
     .custom-select {
     font-family: "Courier New", Courier, monospace;
     font-size: 14px;
-    color: #ffffff;
-    background-color: #6aa9e5;
-    border: 2px solid #c0d9f0;
+    color: #002385;
+    font-weight: bold;
+    background-color: #c0d9f0;
+    border: 2px solid #6aa9e5;
     padding: 8px;
     border-radius: 4px;
     width: 100%;
