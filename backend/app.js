@@ -36,8 +36,8 @@ app.use(express.json())
 app.use(morgan('dev'))
 
 // setup middle ware for routes
-app.use('/Drivers', require('./routes/Drivers'))
-app.use('/Orders', require('./routes/Orders'))
+app.use('/drivers', require('./routes/drivers'))
+app.use('/orders', require('./routes/orders'))
 app.use('/auth', authRoute);
 
 app.listen(PORT, () => {
