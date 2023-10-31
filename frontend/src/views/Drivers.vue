@@ -47,35 +47,91 @@ export default {
 </script>
 
 <template>
-  <div class="contentpage">
-    <form @submit.prevent="sendEmail">
-      <h2>Welcome to the Driver's page.</h2>
-        <p>Here is where you enter driver information records.</p>
-            <label for="fname">Enter Driver information using the form below.</label>
-              <input type="text" name="fname" placeholder="First Name" id="fname" required>
+  <div class="page-container">
+    <div class="contentpage">
+      <form @submit.prevent="sendEmail">
+        <h2>Welcome to the Driver's page.</h2>
+          <p>Here is where you enter driver information records.</p>
+              <label for="fname">Enter Driver information using the form below.</label>
+                <input type="text" name="fname" placeholder="First Name" id="fname" required>
 
-            <label for="lname"> </label>
-              <input type="text" name="lname" placeholder="Last Name" id="lname" required>
+              <label for="lname"> </label>
+                <input type="text" name="lname" placeholder="Last Name" id="lname" required>
 
-            <label for="empid"> </label>
-              <input type="number" name="empid" placeholder="Employee ID" id="empid" required>
+              <label for="empid"> </label>
+                <input type="number" name="empid" placeholder="Employee ID" id="empid" required>
 
-            <label for="phone"> </label>
-              <input type="tel" name="phone" placeholder="Phone Number" id="phone" required>
+              <label for="phone"> </label>
+                <input type="tel" name="phone" placeholder="Phone Number" id="phone" required>
 
-            <label for="Hiring_Date">Hiring Date:</label>
-              <input type="date" name="date" placeholder="Hiring Date" id="date" required>
+              <label for="Hiring_Date">Hiring Date:</label>
+                <input type="date" name="date" placeholder="Hiring Date" id="date" required>
 
-            <label for="message">Comments:</label>
-              <textarea id="message" name="message" placeholder="Comments" rows="4" required></textarea>
-            
-            <button type="submit">Submit</button>
-              <div v-if="showConfirmation" class="confirmation-message">
-                <p>Message recieved.</p>
+              <label for="message">Comments:</label>
+                <textarea id="message" name="message" placeholder="Comments" rows="4" required></textarea>
+              
+              <button type="submit">Submit</button>
+                <div v-if="showConfirmation" class="confirmation-message">
+                  <p>Message recieved.</p>
+                </div>
+      </form>
+    </div>
+
+    <div class="dblist">
+          <main>
+            <div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
+                <div class="ml-10"></div>
+                <div class="flex flex-col col-span-2">
+                  <table class="min-w-full shadow-md rounded">
+                    <thead style="background-color: #6aa9e5;" class="text-xl">
+                      <tr class="p-4 text-left" style="background-color: #c0d9f0;">
+                        <th class="p-4 text-left">First Name</th>
+                        <th class="p-4 text-left">Last Name</th>
+                        <th class="p-4 text-left">Employee ID</th>
+                        <th class="p-4 text-left">Phone Number</th>
+                        <th class="p-4 text-left">Hiring Date</th>
+                        <th class="p-4 text-left">Comments</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-300" >
+                      <!--<tr @click="editEvent(event._id)" v-for="event in recentEvents" :key="event._id">
+                        <td class="p-2 text-left">{{ event.}}</td>
+                        <td class="p-2 text-left">{{ formattedDate(event.date) }}</td>
+                        <td class="p-2 text-left">{{ event.}}</td>
+                        <td class="p-2 text-left">{{ event.}}</td>
+                        <td class="p-2 text-left">{{ event.}}</td>
+                        <td class="p-2 text-left">{{ event.}}</td>
+                      </tr>-->
+                    </tbody>
+                  </table>
+                  <div>
+                    <!--add &&!error back-->
+                    <!-- Start of loading animation -->
+                    <div class="mt-40" v-if="loading">
+                      <p class="text-6xl font-bold text-center text-gray-500 animate-pulse">
+                        Loading...
+                      </p>
+                    </div>
+                    <!-- End of loading animation -->
+
+                    <!-- Start of error alert -->
+                    <div class="mt-12 bg-red-50" v-if="error">
+                      <h3 class="px-4 py-1 text-4xl font-bold text-white bg-red-800">
+                        {{ error.title }}
+                      </h3>
+                      <p class="p-4 text-lg font-bold text-red-900">
+                        {{ error.message }}
+                      </p>
+                    </div>
+                    <!-- End of error alert -->
+                  </div>
+                </div>
               </div>
-    </form>
+            </div>
+          </main>
+    </div>
   </div>
-
       <footer>
         <FooterComponent />
       </footer>
@@ -96,6 +152,14 @@ export default {
       margin-top: 25px;
       font-weight: bold;
     }
+  .page-container {
+    display: flex;
+  }
+  .dblist {
+      display: flex;
+      min-height: 50vh;
+      flex: 1;
+  }
   .contentpage {
       display: flex;
       justify-content: center;

@@ -1,17 +1,17 @@
 <script>
 import FooterComponent from '../components/footerComponent.vue';
-import emailjs from 'emailjs-com';
+import axios from 'axios'
+const apiURL = import.meta.env.VITE_ROOT_API;
 
 export default {
   name: 'CommissionForm',
   data() {
     return {
-      name: '',
-      email: '',
-      message: '',
-      commtype1: '',
-      wip: '',
-      showConfirmation: false,
+      recentEvents: [],
+      labels: [],
+      zLabels: [],
+      loading: false,
+      error: null
     }
   },
   methods: {
@@ -36,6 +36,129 @@ export default {
       this.commtype1 = '';
       this.wip = '';
     },
+    async searchClientID(argID) {
+      let endpoint = ''
+      endpoint = `clients/:${argID}`
+
+    },
+    async getAttendanceData() {
+      try {
+        this.error = null
+        this.loading = true
+        //fetch the attendence data
+        const response = await axios.get(`${apiURL}/events/attendance`)
+        this.recentEvents = response.data
+        //create labels for the attendance data
+        this.labels = response.data.map(
+          (item) => `${item.name} (${this.formattedDate(item.date)})`
+        )
+
+        //filter out empty (0) values from the result sets
+        //0's from both label array and barChartData set for bar chart 
+        let tempbarChartData = this.recentEvents.map((event) => [event.attendees.length])
+        let i = 0;
+        tempbarChartData.forEach(item => {
+          console.log(item)
+          if (item > 0) {
+            this.barChartData.push(item)
+          } else {
+            this.labels.splice(i, 1)
+          }
+          i++;
+        })
+
+        //Create a stripped down linear array to filter
+        let preProcZipData = this.recentEvents.map((event) => [event.attendees])
+        let unfilteredAttendees = []
+        preProcZipData.forEach(element => {
+          element.forEach(element2 => {
+            element2.forEach(element3 => {
+              unfilteredAttendees.push(element3)
+            })
+          })
+        })
+
+        //filter out duplicate attendees
+        let uniqueAttendee = [];
+        unfilteredAttendees.forEach(attendee => {
+          let addAttendee = true
+          uniqueAttendee.forEach(fAttendee => {
+            if (fAttendee === attendee) {
+              addAttendee = false
+            }
+          })
+          if (addAttendee) {
+            uniqueAttendee.push(attendee)
+          }
+
+        })
+
+        //create a unique list of zipcodes from the reponse set
+        const zipCodeData = [];
+        const cResponse = []
+        uniqueAttendee.forEach(element => {
+          cResponse.push(axios.get(`${apiURL}/clients/id/${element}`).then(
+            element => element.data
+          ))
+        })
+
+        //We will go through the array we created and count duplicate zip codes
+        //resulting array should have sub arrays that look like
+        //[zipCode: 7777777, count: 1]
+        const wait = await Promise.all(cResponse).then(Attendees => {
+          Attendees.forEach(attendee => {
+            let addAttendee = true
+            zipCodeData.forEach(zip => {
+              let i = 0;
+              if (zip.zipCode === attendee.address.zip) {
+                addAttendee = false
+                zipCodeData[i].count++
+              }
+              i = i + 1
+            })
+            if (addAttendee && attendee.address.zip.length > 0) {
+              zipCodeData.push({ zipCode: '' + attendee.address.zip, count: 1 })
+            }
+          })
+
+          //pass the zipcode data to the pie chart
+          this.pieChartData = zipCodeData
+        })
+      } catch (err) {
+        if (err.response) {
+          // client received an error response (5xx, 4xx)
+          this.error = {
+            title: 'Server Response',
+            message: err.message
+          }
+        } else if (err.request) {
+          // client never received a response, or request never left
+          this.error = {
+            title: 'Unable to Reach Server',
+            message: err.message
+          }
+        } else {
+          // There's probably an error in your code
+          this.error = {
+            title: 'Application Error',
+            message: err.message
+          }
+        }
+      }
+      this.loading = false
+    },
+    formattedDate(datetimeDB) {
+      const dt = DateTime.fromISO(datetimeDB, {
+        zone: 'utc'
+      })
+      return dt
+        .setZone(DateTime.now().zoneName, { keepLocalTime: true })
+        .toLocaleString()
+    },
+    // method to allow click through table to event details
+    editEvent(eventID) {
+      this.$router.push({ name: 'eventdetails', params: { id: eventID } })
+    }
   },
   name: 'FormView',
   components: {
@@ -45,121 +168,124 @@ export default {
 </script>
 
 <template>
-  <div class="contentpage">
-    <form @submit.prevent="sendEmail">
-      <h2>Welcome to the Orders page.</h2>
-        <p>Click on a logo to track an order.</p>
-          
-          <!--Tracking Logos-->
-          <div class="tracking_logos">
-              <a href="https://www.ups.com/track" style="padding: 10px;">
-                <img src="src/assets/ups_logo.png" alt="Link Image" style="width: 50px; height: 50px;">
-              </a>
-              <a href="https://tools.usps.com/go/TrackConfirmAction_input" style="padding: 10px;">
-                <img src="src/assets/usps_logo2.png" alt="Link Image" style="width: 77px; height: 50px;">
-              </a>  
-              <a href="https://www.fedex.com/en-us/tracking.html" style="padding: 10px;">
-                <img src="src/assets/fedex_logo.png" alt="Link Image" style="width: 168px; height: 50px;">
-              </a><br><br>
-          </div>
-          <br>
-          <!---->
-
-        <p>Fill out the form below with the order details to log the order in the database.</p>
-        <!--Form Entries Start Here-->
-            <label for="name">Tracking Number:</label>
-              <input type="text" name="name" id="name" required><br><br>
-
-            <div class="center-dropdown">
-              <label for="commtype1">Delivery Service</label><br>
-              <select name="commtype1" id="commtype1" class="custom-select">
-                  <option value="volvo">UPS</option>
-                  <option value="saab">FedEx</option>
-                  <option value="opel">USPS</option>
-              </select><br><br>        
+  <div class="page-container">
+    <div class="contentpage">
+      <form @submit.prevent="sendEmail">
+        <h2>Welcome to the Orders page.</h2>
+          <p>Click on a logo to track an order.</p>
+            
+            <!--Tracking Logos-->
+            <div class="tracking_logos">
+                <a href="https://www.ups.com/track" style="padding: 10px;">
+                  <img src="src/assets/ups_logo.png" alt="Link Image" style="width: 50px; height: 50px;">
+                </a>
+                <a href="https://tools.usps.com/go/TrackConfirmAction_input" style="padding: 10px;">
+                  <img src="src/assets/usps_logo2.png" alt="Link Image" style="width: 77px; height: 50px;">
+                </a>  
+                <a href="https://www.fedex.com/en-us/tracking.html" style="padding: 10px;">
+                  <img src="src/assets/fedex_logo.png" alt="Link Image" style="width: 168px; height: 50px;">
+                </a><br><br>
             </div>
+            <br>
+            <!---->
 
-            <label for="Expected_Date">Expected Delivery Date:</label>
-              <input type="date" name="date" placeholder="Hiring Date" id="date" required>
+          <p>Fill out the form below with the order details to log the order in the database.</p>
+          <!--Form Entries Start Here-->
+              <label for="name">Tracking Number:</label>
+                <input type="text" name="name" id="name" required><br><br>
 
-            <label for="empid">Driver ID</label>
-              <input type="number" name="empid" placeholder="Employee ID" id="empid" required>
+              <div class="center-dropdown">
+                <label for="commtype1">Delivery Service</label><br>
+                <select name="commtype1" id="commtype1" class="custom-select">
+                    <option value="volvo">UPS</option>
+                    <option value="saab">FedEx</option>
+                    <option value="opel">USPS</option>
+                </select><br><br>        
+              </div>
 
-            <label for="money">Estimated Total Cost:</label>
-              <input type="text" id="money" name="money" placeholder="$0.00" />
+              <label for="Expected_Date">Expected Delivery Date:</label>
+                <input type="date" name="date" placeholder="Hiring Date" id="date" required>
 
-            <div class="center-radio">
-            <h2>Were there extra fees?</h2>
-            <input type="radio" id="yes" name="wip" value="yes">
-              <label for="yes" class="radio">yes</label>
-            <input type="radio" id="no" name="wip" value="no">
-              <label for="no" class="radio">no</label><br>
-            </div>
+              <label for="empid">Driver ID</label>
+                <input type="number" name="empid" placeholder="Employee ID" id="empid" required>
 
-            <label for="message">Message:</label>
-              <textarea id="message" name="message" rows="8" required></textarea>
+              <label for="money">Estimated Total Cost:</label>
+                <input type="text" id="money" name="money" placeholder="$0.00" />
 
-            <button type="submit">Submit</button>
-            <div v-if="showConfirmation" class="confirmation-message">
-              <p>Message recieved.</p>
-            </div>
-          </form>
-        <!--Form Entries Ends Here-->
-  </div><!--contentpage div-->
+              <div class="center-radio">
+              <h2>Were there extra fees?</h2>
+              <input type="radio" id="yes" name="wip" value="yes">
+                <label for="yes" class="radio">yes</label>
+              <input type="radio" id="no" name="wip" value="no">
+                <label for="no" class="radio">no</label><br>
+              </div>
 
-  <div class="dblist">
-      <main>
-        <div>
-          <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">
-            Welcome
-          </h1>
-          <br />
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
-            <div class="ml-10"></div>
-            <div class="flex flex-col col-span-2">
-              <table class="min-w-full shadow-md rounded">
-                <thead class="bg-gray-50 text-xl">
-                  <tr class="p-4 text-left">
-                    <th class="p-4 text-left">Event Name</th>
-                    <th class="p-4 text-left">Event Date</th>
-                    <th class="p-4 text-left">Number of Attendees</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-300">
-                  <tr @click="editEvent(event._id)" v-for="event in recentEvents" :key="event._id">
-                    <td class="p-2 text-left">{{ event.name }}</td>
-                    <td class="p-2 text-left">{{ formattedDate(event.date) }}</td>
-                    <td class="p-2 text-left">{{ event.attendees.length }}</td>
-                  </tr>
-                </tbody>
-              </table>
-              <div>
-                <!--add &&!error back-->
-                <!-- Start of loading animation -->
-                <div class="mt-40" v-if="loading">
-                  <p class="text-6xl font-bold text-center text-gray-500 animate-pulse">
-                    Loading...
-                  </p>
+              <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="8" required></textarea>
+
+              <button type="submit">Submit</button>
+              <div v-if="showConfirmation" class="confirmation-message">
+                <p>Message recieved.</p>
+              </div>
+      </form>
+          <!--Form Entries Ends Here-->
+    </div><!--contentpage div-->
+
+    <div class="dblist">
+        <main>
+          <div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
+              <div class="ml-10"></div>
+              <div class="flex flex-col col-span-2">
+                <table class="min-w-full shadow-md rounded">
+                  <thead style="background-color: #6aa9e5;" class="text-xl">
+                    <tr class="p-4 text-left" style="background-color: #c0d9f0;">
+                      <th class="p-4 text-left">Tracking Number</th>
+                      <th class="p-4 text-left">Expected Delivery Date</th>
+                      <th class="p-4 text-left">Driver ID</th>
+                      <th class="p-4 text-left">Estimated Total Cost</th>
+                      <th class="p-4 text-left">Extra Fees</th>
+                      <th class="p-4 text-left">Message</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-300" >
+                    <!--<tr @click="editEvent(event._id)" v-for="event in recentEvents" :key="event._id">
+                      <td class="p-2 text-left">{{ event.}}</td>
+                      <td class="p-2 text-left">{{ formattedDate(event.date) }}</td>
+                      <td class="p-2 text-left">{{ event.}}</td>
+                      <td class="p-2 text-left">{{ event.}}</td>
+                      <td class="p-2 text-left">{{ event.}}</td>
+                      <td class="p-2 text-left">{{ event.}}</td>
+                    </tr>-->
+                  </tbody>
+                </table>
+                <div>
+                  <!--add &&!error back-->
+                  <!-- Start of loading animation -->
+                  <div class="mt-40" v-if="loading">
+                    <p class="text-6xl font-bold text-center text-gray-500 animate-pulse">
+                      Loading...
+                    </p>
+                  </div>
+                  <!-- End of loading animation -->
+
+                  <!-- Start of error alert -->
+                  <div class="mt-12 bg-red-50" v-if="error">
+                    <h3 class="px-4 py-1 text-4xl font-bold text-white bg-red-800">
+                      {{ error.title }}
+                    </h3>
+                    <p class="p-4 text-lg font-bold text-red-900">
+                      {{ error.message }}
+                    </p>
+                  </div>
+                  <!-- End of error alert -->
                 </div>
-                <!-- End of loading animation -->
-
-                <!-- Start of error alert -->
-                <div class="mt-12 bg-red-50" v-if="error">
-                  <h3 class="px-4 py-1 text-4xl font-bold text-white bg-red-800">
-                    {{ error.title }}
-                  </h3>
-                  <p class="p-4 text-lg font-bold text-red-900">
-                    {{ error.message }}
-                  </p>
-                </div>
-                <!-- End of error alert -->
               </div>
             </div>
           </div>
-        </div>
-      </main>
+        </main>
+    </div>
   </div>
-
     <footer>
       <FooterComponent />
     </footer>
@@ -181,17 +307,20 @@ export default {
       margin-top: 25px;
       font-weight: bold;
     }
+    .page-container {
+      display: flex;
+    }
     .contentpage {
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 50vh;
+      flex: 1;
     }
     .dblist {
       display: flex;
-      justify-content: center;
-      align-items: center;
       min-height: 50vh;
+      flex: 1;
     }
     .form-container {
       width: 640px;
