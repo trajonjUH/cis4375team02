@@ -69,15 +69,12 @@
 <script>
 /*import { RouterLink, RouterView } from 'vue-router'*/
 import axios from 'axios'
-import { useLoggedInUserStore } from '@/store/loggedInUser'
+
 const apiURL = import.meta.env.VITE_ROOT_API
 
 export default {
   name: 'App',
-  setup() {
-    const user = useLoggedInUserStore();
-    return { user };
-  },
+
   data() {
     return {
       orgName: ''

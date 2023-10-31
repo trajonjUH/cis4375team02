@@ -295,12 +295,11 @@ export default {
   html, body {
     background-color: #ECF4FC;
     } 
-    body {
+  body {
       color: #002385;
       font-size: 14px;
-      font-weight: bold;
     }
-    h1, h2, h3 {
+  h1, h2, h3 {
       color: #002385;
       font-size: 16px;
       font-family: 'Courier New', Courier, monospace;
@@ -326,30 +325,20 @@ export default {
       width: 640px;
       height: 1435px;
     }
-    label {
+  label {
       font-family: 'Courier New', Courier, monospace;
       font-size: 16px;
     }
-    form {
+
+  form {
       width: 500px;
       padding-bottom: 100px;
       padding-top: 5px;
     }
-    .tracking_logos{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    }
-    .center-dropdown {
-    text-align: center; /* Horizontally center the content */
-    }
-    .center-radio{
-    text-align: center; /* Horizontally center the content */
-    }
+
+    
     input[type="text"],
     input[type="email"],
-    input[type="date"],
-    input[type="number"],
     textarea {
       font-family: Arial, Helvetica, sans-serif;
       width: 100%;
@@ -392,8 +381,7 @@ export default {
     width: 500px;
     height: 30;
     }
-    button[type="submit"],
-    button[type="menu"] {
+    button[type="submit"] {
     background-color: #6aa9e5;
     color: #002385;
     border: none;
@@ -413,10 +401,9 @@ export default {
     .custom-select {
     font-family: "Courier New", Courier, monospace;
     font-size: 14px;
-    color: #002385;
-    font-weight: bold;
-    background-color: #c0d9f0;
-    border: 2px solid #6aa9e5;
+    color: #ffffff;
+    background-color: #6aa9e5;
+    border: 2px solid #c0d9f0;
     padding: 8px;
     border-radius: 4px;
     width: 100%;

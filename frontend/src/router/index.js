@@ -14,19 +14,14 @@ const router = createRouter({
       component: () => import('../views/Drivers.vue')
     },
     {
-      path: '/3Dprices',
-      name: '3Dprices',
-      component: () => import('../views/3DpricesView.vue')
-    },
-    {
-      path: '/T.O.S',
-      name: 'T.O.S',
-      component: () => import('../views/T.O.Sview.vue')
-    },
-    {
       path: '/Orders',
       name: 'Orders',
       component: () => import('../views/Orders.vue')
+    },
+    {
+      path: '/contact',
+      name: 'contact',
+      component: () => import('../views/contactView.vue')
     }
   ]
 })
