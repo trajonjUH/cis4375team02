@@ -3,6 +3,9 @@ const router = express.Router()
 
 const org = process.env.ORG
 
+// importingdata model schemas
+const {drivers} = require('../models/models')
+
 // GET/READ
 
 //GET 10 most recent drivers
@@ -121,3 +124,4 @@ router.delete('/:id', (req, res, next) => {
     })
 })
 
+module.exports = router

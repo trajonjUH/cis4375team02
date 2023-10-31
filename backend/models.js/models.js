@@ -2,7 +2,7 @@ const uuid = require('uuid')
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-// collection for Drivers
+// collection for drivers
 const driversDataSchema = new Schema(
   {
     _id: { type: String, default: uuid.v1 },
@@ -32,8 +32,8 @@ const driversDataSchema = new Schema(
   }
 )
 
-// collection for Orders
-const orderDataSchema = new Schema(
+// collection for orders
+const ordersDataSchema = new Schema(
   {
     _id: { type: String, default: uuid.v1 },
     order_id: {
@@ -66,6 +66,11 @@ const orderDataSchema = new Schema(
     },
   },
     {
-      collection: 'order'
+      collection: 'orders'
     }
 )
+
+const drivers = mongoose.model('driver', driversDataSchema)
+const orders = mongoose.model('order', ordersDataSchema)
+
+module.exports = {drivers, orders}

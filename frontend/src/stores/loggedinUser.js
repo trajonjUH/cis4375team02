@@ -53,12 +53,12 @@ export const useLoggedInUserStore = defineStore({
 });
 
 // Helper function to handle the login API call
-async function loginUser(u, p) {
+async function loginUser(a, b) {
   try {
     // Send a POST request to the login endpoint with the provided username and password
     const response = await axios.post(`${apiURL}/auth/login`, {
-      username: u,
-      password: p,
+      username: a,
+      password: b,
     });
 
     // If the request is successful, return the response data

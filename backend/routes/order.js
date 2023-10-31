@@ -3,6 +3,9 @@ const router = express.Router()
 
 const org = process.env.ORG
 
+// importingdata model schemas
+const {orders} = require('../models/models')
+
 // GET/READ
 
 //GET 10 most recent orders
@@ -119,3 +122,5 @@ router.delete('/:id', (req, res, next) => {
       }
     })
 })
+
+module.exports = router
