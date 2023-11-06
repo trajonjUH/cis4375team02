@@ -1,7 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose') //require mongoose library functionaility
 const morgan = require('morgan') // better debugging
-const authRoute = require('./routes/auth.route');
 
 
 const cors = require('cors')
@@ -38,7 +37,6 @@ app.use(morgan('dev'))
 // setup middle ware for routes
 app.use('/drivers', require('./routes/drivers'))
 app.use('/orders', require('./routes/orders'))
-app.use('/auth', authRoute);
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`)

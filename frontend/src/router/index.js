@@ -9,14 +9,24 @@ const router = createRouter({
       component: () => import('../views/homeView.vue')
     },
     {
-      path: '/Drivers',
-      name: 'Drivers',
-      component: () => import('../views/Drivers.vue')
+      path: '/addDrivers',
+      name: 'addDrivers',
+      component: () => import('../views/addDrivers.vue')
     },
     {
-      path: '/Orders',
-      name: 'Orders',
-      component: () => import('../views/Orders.vue')
+      path: '/editDrivers',
+      name: 'editDrivers',
+      component: () => import('../views/editDrivers.vue')
+    },
+    {
+      path: '/addOrders',
+      name: 'addOrders',
+      component: () => import('../views/addOrders.vue')
+    },
+    {
+      path: '/editOrders',
+      name: 'editOrders',
+      component: () => import('../views/editOrders.vue')
     },
     {
       path: '/contact',

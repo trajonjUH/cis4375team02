@@ -34,7 +34,7 @@ export default {
   
   <div class="contentpage_05">
     <div class="home-instructions">
-      <h1>How to use this application:</h1>
+      <h2>How to get started:</h2>
 
 <!--Navigation Tabs_01-->
         <div class="navigation-container">
@@ -56,15 +56,14 @@ export default {
           
           <div class="navigation-tabs-body">
             <div v-show="selectedCity === 'Drivers'">
-              <h2>How to use the drivers page:</h2>
-              <p></p>
-              <p><a class="btn btn-lg btn-primary my-custom-button" href="src/views/Drivers.vue">Begin</a></p>
+              <p>Use the form to enter a new driver into the database. Selecting a driver from the database view will fill the form with that record. You may edit or delete that record once selected.</p>
+              <p><a class="btn btn-lg btn-primary my-custom-button" href="/Drivers">Begin</a></p>
             </div>
 
             <div v-show="selectedCity === 'Orders'">
               <h2>How to use the orders page:</h2>
               <p></p>
-              <p><a class="btn btn-lg btn-primary my-custom-button" href="src/views/Orders.vue">Begin</a></p>
+              <p><a class="btn btn-lg btn-primary my-custom-button" href="/Orders">Begin</a></p>
             </div>
 
           </div>

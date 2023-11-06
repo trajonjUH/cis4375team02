@@ -7,53 +7,60 @@
             <li class="nav-item">
               <router-link class="nav-link" to="/">Home</router-link>
             </li>
-            <li class="nav-item">
-              <router-link class="nav-link" to="/Drivers">Drivers</router-link>
-            </li>
+
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdownMenuLink"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Orders
+              </a>
   
-            
-            <li class="nav-item">
-              <router-link class="nav-link" to="/Orders">Orders</router-link>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li class="nav-item">
+                  <router-link class="nav-link" to="/addOrders">Add Order</router-link>
+                </li>
+                <li class="nav-item">
+                  <router-link class="nav-link" to="/editOrders">Edit Order</router-link>
+                </li>
+              </ul>
             </li>
+
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdownMenuLink"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Drivers
+              </a>
+  
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li class="nav-item">
+                  <router-link class="nav-link" to="/addDrivers">Add Driver</router-link>
+                </li>
+                <li class="nav-item">
+                  <router-link class="nav-link" to="/editDrivers">Edit Driver</router-link>
+                </li>
+              </ul>
+            </li>
+
             </ul>
           
           <a class="navbar-brand" href="#">
             <img
-              alt="Rhurbo Logo"
+              alt="PORTIntelligence Logo"
               src="./assets/PORTintelligenceZDF.png"
               width="248"
               height="48"
               class="d-inline-block align-text-top"
             />
           </a>
-
-          <!--<ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="">
-              <img src="./assets/instagram.png" alt="Instagram" width="20" height="20" />
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="">
-              <img src="./assets/tik-tok.png" alt="tiktok" width="20" height="20" />
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="">
-              <img src="./assets/twitter.png" alt="twitter" width="20" height="20" />
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="">
-              <img src="./assets/youtube.png" alt="twitter" width="20" height="20" />
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="trajon2011@gmail.com">
-              <img src="./assets/email.png" alt="email" width="20" height="20" />
-            </a>
-          </li>
-        </ul>-->
 
         </div>
       </nav>

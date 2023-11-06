@@ -67,42 +67,51 @@ export default {
 <style>
   html, body {
     background-color: #ECF4FC;
-  }
-  
+    } 
   body {
       color: #002385;
       font-size: 14px;
     }
   h1, h2, h3 {
       color: #002385;
-      font-size: 17px;
+      font-size: 16px;
+      font-family: 'Courier New', Courier, monospace;
+      margin-top: 25px;
+      font-weight: bold;
     }
+  .page-container {
+    display: flex;
+  }
+  .dblist {
+      display: flex;
+      min-height: 50vh;
+      flex: 1;
+  }
   .contentpage {
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 50vh;
     }
-
   .form-container {
       width: 640px;
       height: 1435px;
-      margin-top: 10px;
     }
-  
   label {
       font-family: 'Courier New', Courier, monospace;
       font-size: 16px;
-  }
+    }
 
   form {
       width: 500px;
-      padding-bottom: 50px;
-      padding-top: 25px;
+      padding-bottom: 100px;
+      padding-top: 5px;
     }
-
     input[type="text"],
     input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="date"],
     textarea {
       font-family: Arial, Helvetica, sans-serif;
       width: 100%;
@@ -112,8 +121,34 @@ export default {
       color: #002385;
       border-radius: 2%;
       color: #002385;
+      margin-bottom: 10px;
     }
-    
+
+    input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    background-clip: content-box;
+    border: 2px solid #6aa9e5;
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    margin-right: 5px;
+    cursor: pointer;
+    }
+
+    input[type="checkbox"]:checked {
+    background-color: #6aa9e5;
+    }
+
+    label.checkbox-label {
+    font-family: "Courier New", Courier, monospace;
+    color: #002385;
+    }
+
     .confirmation-message {
     margin-top: 10px;
     padding: 10px;
@@ -142,6 +177,45 @@ export default {
 
     button[type="submit"]:hover {
       background-color: #4187c9;
+    }
+
+    .custom-select {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 14px;
+    color: #ffffff;
+    background-color: #6aa9e5;
+    border: 2px solid #c0d9f0;
+    padding: 8px;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    width: 230px;
+    }
+
+    option:disabled {
+    color: #212121;
+    }
+
+    .radio {
+      margin-right: 10px;
+      padding-left: 5px;
+      font-size: 16px;
+      color: rgb(255, 255, 255);
+    }
+    label.radio {
+      font-family: "Courier New", Courier, monospace;
+      color: #002385; 
+      font-weight: bold;
+    }
+
+    .form-container {
+      display: flex;
+      height: 50px;
+      padding-right: 100px;
+    }
+
+    .form-group {
+      margin-right: 5px;
     }
 
 </style>
