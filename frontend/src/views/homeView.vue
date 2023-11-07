@@ -22,10 +22,10 @@ export default {
 
 <template>
   <div class="icon-container">
-    <router-link to="/Drivers">
+    <router-link to="/addDrivers">
       <img src="src/assets/drivericon.png" alt="Driver Icon" class="home-icons">
     </router-link>
-    <router-link to="/Orders">
+    <router-link to="/addOrders">
     <a href="src/views/Orders.vue"></a>  
       <img src="src/assets/ordersicon.png" alt="Orders Icon" class="home-icons">
     </router-link>

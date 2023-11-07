@@ -11,60 +11,49 @@ export default {
   },*/
   data() {
     return {
-    OrdersArray: [],
-      order: {
-        tracking_number: '',
-        delivery_service: '',
-        exp_deliver_date: '',
-        emp_id: '',
-        exp_cost: '',
-        delivery_fees: '',
-        message: '',
-        loading: false,
-        error: null
-      }
+      queryData: [],
+      // Parameter for search to occur
+      searchBy: '',
+      tracking_number: ''
     }
   },
   created() {
-    //fetch services that have active status
-    axios.get(`${apiURL}/services/search?val=true&searchBy=status`).then((res) => {
-      this.services = res.data
-      this.services.forEach((e) => {
-        axios.get(`${apiURL}/services/id/${e._id}`).then((res) => {
-          this.OrdersArray.push(res.data)
-        })
-      })
-    })
+    this.getOrders()
   },
   methods: {
-    async handleSubmitForm() {
-      // Checks to see if there are any errors in validation
-      const isFormCorrect = await this.v$.$validate()
-      // If no errors found. isFormCorrect = True then the form is submitted
-      if (isFormCorrect) {
-        axios
-          .post(`${apiURL}/order`, this.order)
-          .then(() => {
-            alert('Order has been added.')
-            this.$router.push({ name: 'findevents' })
-          })
-          .catch((error) => {
-            console.log(error)
-          })
+    handleSubmitForm() {
+      let endpoint = ''
+      if (this.searchBy === 'Tracking Number') {
+        endpoint = `order/search/?tracking_number=${this.tracking_number}&searchBy=tracking_number`
       }
-    }
-  },
-  validations() {
-    return {
-      event: {
-        name: { required },
-        date: { required }
+      axios.get(`${apiURL}/${endpoint}`).then((res) => {
+        this.queryData = res.data
+      })
+    },
+    getOrders() {
+      axios.get(`${apiURL}/order`).then((res) => {
+        this.queryData = res.data
+        console.log(res.data)
+      })
+      window.scrollTo(0, 0)
+    },
+    clearSearch() {
+      // Resets all the variables
+      this.searchBy = ''
+      this.tracking_number = ''
+
+      // get all entries
+      this.getOrders()
+    },
+    editOrder(order_id) {
+      if (this.user.isEditor) {
+        this.$router.push({ name: 'updateorder', params: { id: order_id } })
       }
-    }
-  },
+    },
   name: 'FormView',
   components: {
     FooterComponent
+    }
   }
 }
 </script>
@@ -85,8 +74,6 @@ export default {
       </div>
   </div>
 
-
-
     <div class="dblist">
         <main>
           <div>
@@ -105,7 +92,7 @@ export default {
                     </tr>
                   </thead>
                   <tbody class="divide-y divide-gray-300" >
-                    <tr @click="editEvent(event._id)" v-for="event in recentEvents" :key="event._id">
+                    <tr @click="editOrder(order.order_id)" v-for="event in recentOrders" :key="order.order_id">
                       <td class="p-2 text-left">{{ order.tracking_number}}</td>
                       <td class="p-2 text-left">{{ formattedDate(order.exp_deliver_date) }}</td>
                       <td class="p-2 text-left">{{ order.emp_id}}</td>
