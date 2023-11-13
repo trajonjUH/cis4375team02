@@ -4,11 +4,6 @@ import axios from 'axios'
 const apiURL = import.meta.env.VITE_ROOT_API;
 
 export default {
-  name: 'ContactUs',
-  /*setup() {
-    //validators
-    return { v$: useVuelidate({ $autoDirty: true }) }
-  },*/
   data() {
     return {
     DriversArray: [],
