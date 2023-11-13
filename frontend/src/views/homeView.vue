@@ -56,14 +56,13 @@ export default {
           
           <div class="navigation-tabs-body">
             <div v-show="selectedCity === 'Drivers'">
-              <p>Use the form to enter a new driver into the database. Selecting a driver from the database view will fill the form with that record. You may edit or delete that record once selected.</p>
-              <p><a class="btn btn-lg btn-primary my-custom-button" href="/Drivers">Begin</a></p>
+              <p>Use the "Add Driver" form to enter a new driver into the database. In the "Edit Driver" page, selecting a driver from the database view will fill the form with that record. You may edit or delete that record once selected.</p>
+              <p><a class="btn btn-lg btn-primary my-custom-button" href="/addDrivers">Begin</a></p>
             </div>
 
             <div v-show="selectedCity === 'Orders'">
-              <h2>How to use the orders page:</h2>
-              <p></p>
-              <p><a class="btn btn-lg btn-primary my-custom-button" href="/Orders">Begin</a></p>
+              <p>Use the "Add Order" form to enter a new order into the database. In the "Edit Order" page, selecting an order from the database view will fill the form with that record. You may edit or delete that record once selected.</p>
+              <p><a class="btn btn-lg btn-primary my-custom-button" href="/addOrders">Begin</a></p>
             </div>
 
           </div>

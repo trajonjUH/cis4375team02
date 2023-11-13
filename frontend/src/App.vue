@@ -84,12 +84,12 @@ export default {
 
   data() {
     return {
-      orgName: ''
+      order: ''
     }
   },
   created() {
     // Fetch organization name on component creation
-    axios.get(`${apiURL}/org`).then((res) => {
+    axios.get(`${apiURL}/order`).then((res) => {
       console.log('', res)
       if (res.data && res.data.name) {
         this.orgName = res.data.name
