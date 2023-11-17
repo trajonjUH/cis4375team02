@@ -18,34 +18,21 @@ export default {
       }
     }
   },
-  created() {
-    //fetch services that have active status
-    axios.get(`${apiURL}/services/search?val=true&searchBy=status`).then((res) => {
-      this.services = res.data
-      this.services.forEach((e) => {
-        axios.get(`${apiURL}/services/id/${e._id}`).then((res) => {
-          this.OrdersArray.push(res.data)
-        })
-      })
-    })
-  },
+
   methods: {
     async handleSubmitForm() {
-      // Checks to see if there are any errors in validation
-      const isFormCorrect = await this.v$.$validate()
-      // If no errors found. isFormCorrect = True then the form is submitted
-      if (isFormCorrect) {
-        axios
-          .post(`${apiURL}/order`, this.order)
-          .then(() => {
-            alert('Order has been added.')
-            this.$router.push({ name: 'findevents' })
-          })
-          .catch((error) => {
-            console.log(error)
-          })
+      try {
+        // Send form data to the backend API
+        const response = await this.$axios.post('/api/drivers', this.driver);
+
+        // Handle the response (you can update the UI accordingly)
+        console.log('API response:', response.data);
+        this.showConfirmation = true;
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        // Handle error, show error message, etc.
       }
-    }
+    },
   },
   validations() {
     return {

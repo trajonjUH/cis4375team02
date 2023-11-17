@@ -69,6 +69,21 @@
         <!-- Router view - our main view below the navigation -->
         <RouterView></RouterView>
       </div>
+
+      <div id="app">
+        <h1>Drivers Information</h1>
+        <ul>
+          <li v-for="driver in drivers" :key="driver.driver_id">
+            {{ driver.fname }} {{ driver.lname }} - Employee ID: {{ driver.emp_id }} - Phone: {{ driver.phone }}
+          </li>
+        </ul>
+        <h1>Orders Information</h1>
+        <ul>
+          <li v-for="order in orders" :key="order.order_id">
+            Tracking Number: {{ order.tracking_number }} - Service: {{ order.delivery_service }} - Expected Delivery Date: {{ order.expected_delivery_date }}
+          </li>
+        </ul>
+      </div>
     </div>
 </template>
   
@@ -81,24 +96,32 @@ const apiURL = import.meta.env.VITE_ROOT_API
 
 export default {
   name: 'App',
-
   data() {
     return {
-      order: ''
-    }
+      drivers: [],
+      orders: [],
+    };
   },
-  created() {
-    // Fetch organization name on component creation
-    axios.get(`${apiURL}/order`).then((res) => {
-      console.log('', res)
-      if (res.data && res.data.name) {
-        this.orgName = res.data.name
-      }
-    }).catch((error) => {
-      console.error(error)
-    })
-  }
-}
+  mounted() {
+    // Fetch drivers data
+    this.$axios.get(`http://localhost:5173/api/drivers`)
+      .then(response => {
+        this.drivers = response.data;
+      })
+      .catch(error => {
+        console.error('Error fetching drivers data:', error);
+      });
+
+    // Fetch orders data
+    this.$axios.get(`http://localhost:5173/api/orders`)
+      .then(response => {
+        this.orders = response.data;
+      })
+      .catch(error => {
+        console.error('Error fetching orders data:', error);
+      });
+  },
+};
 </script>
 
 
