@@ -50,7 +50,10 @@
               </ul>
             </li>
 
-            </ul>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/contactView">Contact</router-link>
+            </li>
+          </ul>
           
           <a class="navbar-brand" href="#">
             <img
@@ -70,7 +73,7 @@
         <RouterView></RouterView>
       </div>
 
-      <div id="app">
+      <!--<div id="app">
         <h1>Drivers Information</h1>
         <ul>
           <li v-for="driver in drivers" :key="driver.driver_id">
@@ -83,7 +86,7 @@
             Tracking Number: {{ order.tracking_number }} - Service: {{ order.delivery_service }} - Expected Delivery Date: {{ order.expected_delivery_date }}
           </li>
         </ul>
-      </div>
+      </div>-->
     </div>
 </template>
   

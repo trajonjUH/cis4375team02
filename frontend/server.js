@@ -64,6 +64,18 @@ app.post('/api/drivers', (req, res) => {
     });
   });
 
+app.post('/api/orders', (req, res) => {
+    const query = 'SELECT * FROM orders';
+    connection.query(query, (err, results) => {
+      if (err) throw err;
+      res.json(results);
+    });
+  });
+
+app.put('/api/orders', (req, res) => {
+    const query = 'SELECT * from order'
+})
+
 // Start the server and listen on the specified port
 app.listen(port, () => {
   console.log(`Server is running on port 5173`);

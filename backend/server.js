@@ -9,7 +9,7 @@ const mysql = require('mysql');
 const app = express();
 
 // Define the port for the server to listen on
-const port = 5173;
+const port = 3000;
 
 // Enable Cross-Origin Resource Sharing (CORS)
 app.use(cors());
@@ -35,7 +35,7 @@ connection.connect((err) => {
 
 
 // Define an API endpoint to fetch data from the MySQL database
-app.get('/api/orders', (req, res) => {
+app.get('/orders', (req, res) => {
   const query = 'SELECT * FROM orders';
   connection.query(query, (err, results) => {
     if (err) {
@@ -47,7 +47,7 @@ app.get('/api/orders', (req, res) => {
   });
 });
 
-app.get('/api/drivers', (req, res) => {
+app.get('/drivers', (req, res) => {
     const query = 'SELECT * FROM drivers';
     connection.query(query, (err, results) => {
       if (err) throw err;
@@ -56,7 +56,7 @@ app.get('/api/drivers', (req, res) => {
   });
 // Other API endpoints can be defined here...
 
-app.post('/api/drivers', (req, res) => {
+app.post('/drivers', (req, res) => {
     const query = 'SELECT * FROM drivers';
     connection.query(query, (err, results) => {
       if (err) throw err;

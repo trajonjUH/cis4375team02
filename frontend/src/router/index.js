@@ -29,8 +29,8 @@ const router = createRouter({
       component: () => import('../views/editOrders.vue')
     },
     {
-      path: '/contact',
-      name: 'contact',
+      path: '/contactView',
+      name: 'contactView',
       component: () => import('../views/contactView.vue')
     }
   ]

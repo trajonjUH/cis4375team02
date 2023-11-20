@@ -1,19 +1,40 @@
 const express = require('express');
-const path = require('path');
-const bodyParser = require('body-parser');
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const morgan = require('morgan');
+const routes = express.Router();
+const router = express.Router();
+// Database Connection
+
+const mysql = require('mysql');
+const connection = mysql.createConnection({
+  host: 'cis3368fall.c7lgfan7kblo.us-east-2.rds.amazonaws.com',
+  user: 'admin',
+  password: 'admin2000',
+  database: 'cis4375',
+});
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'dist')));
-app.use('/api', createProxyMiddleware({ target: 'http://localhost:5173', changeOrigin: true }));
-app.set('view engine', 'ejs');
-app.use('/public', express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+app.use('/', routes);
+app.use(express.json()); 
+app.use(morgan('dev'));
+
+app.get('/orders', (req, res) => {
+  const query = 'SELECT * FROM orders';
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Error executing MySQL query:', err);
+      res.status(500).send('Error fetching data from database');
+    } else {
+      res.json(results);
+    }
+  });
 });
 
-app.listen(5176, () => console.log('Server started <3 ...'));
+// Express Listener
+const listenerPort = process.env.LISTENER || 3000; // Default to 3000 if LISTENER is not set
+app.listen(listenerPort, () => {
+  console.log(`Server is running on port ${listenerPort}`);
+});
+ 
+// Rest of your express app logic
