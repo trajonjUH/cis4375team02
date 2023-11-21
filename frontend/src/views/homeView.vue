@@ -79,6 +79,10 @@ export default {
 <style>
 html, body {
   background-color: #ECF4FC;
+  background-image: url('src/assets/backgroundsnow.png');
+  background-size: cover; /* You can also use 'contain' or other values */
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 body {
     color: #002385;

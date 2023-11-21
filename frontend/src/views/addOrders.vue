@@ -10,9 +10,10 @@ export default {
     return { v$: useVuelidate({ $autoDirty: true }) }
   },*/
   data() {
+    
     return {
     OrdersArray: [],
-      order: {
+      orders: {
         tracking_number: '',
         delivery_service: '',
         exp_deliver_date: '',
@@ -26,11 +27,15 @@ export default {
     }
   },
 
+  mounted() {
+  this.fetchOrders(); // Define this method to fetch orders
+  },
+
   methods: {
     async handleSubmitForm() {
       try {
         // Send form data to the backend API
-        const response = await this.$axios.post('/api/orders', this.order);
+        const response = await this.$axios.post('/orders', this.orders);
 
         // Handle the response (you can update the UI accordingly)
         console.log('API response:', response.data);
@@ -40,7 +45,17 @@ export default {
         // Handle error, show error message, etc.
       }
     },
+    async fetchOrders() {
+    try {
+      const response = await axios.get('http://localhost:3000/orders');
+      console.log(response.data)
+      this.OrdersArray = response.data;
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+    }
   },
+
+
   validations() {
     return {
       event: {
@@ -53,6 +68,8 @@ export default {
   components: {
     FooterComponent
   }
+  }
+
 }
 </script>
 
@@ -123,12 +140,12 @@ export default {
     <div class="dblist">
         <main>
           <div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
+            <div class="most-hugest-container">
               <div class="ml-10">
                 
               </div>
               <div class="flex flex-col col-span-2">
-                <table class="min-w-full shadow-md rounded">
+                <table class="custom-table">
                   <thead style="background-color: #6aa9e5;" class="text-xl">
                     <tr class="p-4 text-left" style="background-color: #c0d9f0;">
                       <th class="p-4 text-left">Tracking Number</th>
@@ -140,13 +157,13 @@ export default {
                     </tr>
                   </thead>
                   <tbody class="divide-y divide-gray-300" >
-                    <tr @click="editEvent(event._id)" v-for="event in recentEvents" :key="event._id">
-                      <td class="p-2 text-left">{{ order.tracking_number}}</td>
-                      <td class="p-2 text-left">{{ formattedDate(order.exp_deliver_date) }}</td>
-                      <td class="p-2 text-left">{{ order.emp_id}}</td>
-                      <td class="p-2 text-left">{{ order.exp_cost}}</td>
-                      <td class="p-2 text-left">{{ order.delivery_fees}}</td>
-                      <td class="p-2 text-left">{{ order.message}}</td>
+                    <tr  v-for="orders in OrdersArray" :key="orders._id">
+                      <td class="p-2 text-left">{{ orders.tracking_number}}</td>
+                      <td class="p-2 text-left">{{ formattedDate(orders.exp_deliver_date) }}</td>
+                      <td class="p-2 text-left">{{ orders.emp_id}}</td>
+                      <td class="p-2 text-left">{{ orders.exp_cost}}</td>
+                      <td class="p-2 text-left">{{ orders.delivery_fees}}</td>
+                      <td class="p-2 text-left">{{ orders.message}}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -212,22 +229,46 @@ export default {
       min-height: 50vh;
       flex: 1;
     }
+    .custom-border-color {
+      border-color: #6aa9e5; 
+    }
     .form-container {
       width: 640px;
       height: 1435px;
     }
-  label {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 16px;
+    label {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 16px;
+      }
+    form {
+        width: 500px;
+        padding-bottom: 100px;
+        padding-top: 5px;
+      }
+    .custom-table {
+      min-width: 100%;
+      border: 2px solid #6aa9e5;
+      border-radius: 12px;
     }
+    .most-hugest-container {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr)); /* Default for all screen sizes */
+      gap: 1.5rem; /* Adjust the gap according to your design */
 
-  form {
-      width: 500px;
-      padding-bottom: 100px;
-      padding-top: 5px;
+      /* Responsive settings */
+      @media (min-width: 640px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 columns on small screens */
+      }
+
+      @media (min-width: 768px) {
+        grid-template-columns: repeat(4, minmax(0, 1fr)); /* 4 columns on medium screens */
+      }
     }
-
-    
+    .ml-10 {
+      .ml-10 {
+        margin-left: 5px; /* Adjust the value as needed */
+      }
+    }
     input[type="text"],
     input[type="email"],
     input[type="date"],

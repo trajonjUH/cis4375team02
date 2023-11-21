@@ -48,21 +48,64 @@ app.get('/orders', (req, res) => {
 });
 
 app.get('/drivers', (req, res) => {
+  const query = 'SELECT * FROM drivers';
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Error executing MySQL query:', err);
+      res.status(500).send('Error fetching data from database');
+    } else {
+      res.json(results);
+    }
+  });
     const query = 'SELECT * FROM drivers';
     connection.query(query, (err, results) => {
       if (err) throw err;
       res.json(results);
     });
-  });
+});
 // Other API endpoints can be defined here...
 
-app.post('/drivers', (req, res) => {
-    const query = 'SELECT * FROM drivers';
-    connection.query(query, (err, results) => {
-      if (err) throw err;
-      res.json(results);
-    });
+app.post('/orders', (req, res) => {
+  const {
+    tracking_number,
+    delivery_service,
+    expected_delivery_date,
+    employee_id,
+    expected_cost,
+    delivery_fees,
+    message,
+  } = req.body;
+
+  const query = `INSERT INTO orders (
+    tracking_number,
+    delivery_service,
+    expected_delivery_date,
+    employee_id,
+    expected_cost,
+    delivery_fees,
+    message
+  ) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+
+  const values = [
+    tracking_number,
+    delivery_service,
+    expected_delivery_date,
+    employee_id,
+    expected_cost,
+    delivery_fees,
+    message,
+  ];
+
+  connection.query(query, values, (err, results) => {
+    if (err) {
+      console.error('Error executing MySQL query:', err);
+      res.status(500).send('Error creating order');
+    } else {
+      console.log('Order created successfully');
+      res.status(201).json({ orderId: results.insertId });
+    }
   });
+});
 
 // Start the server and listen on the specified port
 app.listen(port, () => {

@@ -107,7 +107,7 @@ export default {
   },
   mounted() {
     // Fetch drivers data
-    this.$axios.get(`http://localhost:5173/api/drivers`)
+    axios.get(`http://localhost:3000/drivers`)
       .then(response => {
         this.drivers = response.data;
       })
@@ -116,7 +116,7 @@ export default {
       });
 
     // Fetch orders data
-    this.$axios.get(`http://localhost:5173/api/orders`)
+    axios.get(`http://localhost:3000/orders`)
       .then(response => {
         this.orders = response.data;
       })

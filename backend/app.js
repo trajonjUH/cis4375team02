@@ -31,6 +31,102 @@ app.get('/orders', (req, res) => {
   });
 });
 
+app.get('/drivers', (req, res) => {
+  const query = 'SELECT * FROM drivers';
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Error executing MySQL query:', err);
+      res.status(500).send('Error fetching data from database');
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+app.post('/orders', (req, res) => {
+  const {
+    tracking_number,
+    delivery_service,
+    expected_delivery_date,
+    employee_id,
+    expected_cost,
+    delivery_fees,
+    message,
+  } = req.body;
+
+  const query = `INSERT INTO orders (
+    tracking_number,
+    delivery_service,
+    expected_delivery_date,
+    employee_id,
+    expected_cost,
+    delivery_fees,
+    message
+  ) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+
+  const values = [
+    tracking_number,
+    delivery_service,
+    expected_delivery_date,
+    employee_id,
+    expected_cost,
+    delivery_fees,
+    message,
+  ];
+
+  connection.query(query, values, (err, results) => {
+    if (err) {
+      console.error('Error executing MySQL query:', err);
+      res.status(500).send('Error creating order');
+    } else {
+      console.log('Order created successfully');
+      res.status(201).json({ orderId: results.insertId });
+    }
+  });
+});
+
+app.post('/drivers', (req, res) => {
+  const {
+    tracking_number,
+    delivery_service,
+    expected_delivery_date,
+    employee_id,
+    expected_cost,
+    delivery_fees,
+    message,
+  } = req.body;
+
+  const query = `INSERT INTO orders (
+    tracking_number,
+    delivery_service,
+    expected_delivery_date,
+    employee_id,
+    expected_cost,
+    delivery_fees,
+    message
+  ) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+
+  const values = [
+    tracking_number,
+    delivery_service,
+    expected_delivery_date,
+    employee_id,
+    expected_cost,
+    delivery_fees,
+    message,
+  ];
+
+  connection.query(query, values, (err, results) => {
+    if (err) {
+      console.error('Error executing MySQL query:', err);
+      res.status(500).send('Error creating order');
+    } else {
+      console.log('Order created successfully');
+      res.status(201).json({ orderId: results.insertId });
+    }
+  });
+});
+
 // Express Listener
 const listenerPort = process.env.LISTENER || 3000; // Default to 3000 if LISTENER is not set
 app.listen(listenerPort, () => {

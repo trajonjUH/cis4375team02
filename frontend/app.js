@@ -2,8 +2,15 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const { createProxyMiddleware } = require('http-proxy-middleware');
-
+var cors = require('cors')
+var app = express()
+ 
 const app = express();
+app.use(cors({
+    origin: "http://localhost:5173"
+}))
+
+
 
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/api', createProxyMiddleware({ target: 'http://localhost:5173', changeOrigin: true }));
