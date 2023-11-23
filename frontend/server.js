@@ -9,7 +9,7 @@ const mysql = require('mysql');
 const app = express();
 
 // Define the port for the server to listen on
-const port = 5173;
+const port = 3000;
 
 // Enable Cross-Origin Resource Sharing (CORS)
 app.use(cors());
@@ -78,5 +78,5 @@ app.put('/api/orders', (req, res) => {
 
 // Start the server and listen on the specified port
 app.listen(port, () => {
-  console.log(`Server is running on port 5173`);
+  console.log(`Server is running on port 3000`);
 });

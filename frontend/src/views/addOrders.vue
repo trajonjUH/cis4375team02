@@ -1,32 +1,84 @@
 <script>
 import FooterComponent from '../components/footerComponent.vue';
 import axios from 'axios'
+import { DateTime } from 'luxon';
 const apiURL = import.meta.env.VITE_ROOT_API;
 
 export default {
-  name: 'CommissionForm',
   /*setup() {
     //validators
     return { v$: useVuelidate({ $autoDirty: true }) }
   },*/
-  data() {
-    
+  data() {   
     return {
-    OrdersArray: [],
-      orders: {
-        tracking_number: '',
-        delivery_service: '',
-        exp_deliver_date: '',
-        emp_id: '',
-        exp_cost: '',
-        delivery_fees: '',
-        message: '',
-        loading: false,
-        error: null
-      }
+      OrdersArray: [],
+    /*OrdersArray: [
+      {
+        _id: 1,
+        tracking_number: 'ABC12345',
+        exp_deliver_date: new Date('2023-11-24'),
+        emp_id: 'EMP001',
+        exp_cost: 100,
+        delivery_fees: 20,
+        message: 'Please deliver this order ASAP.'
+      },
+      {
+        _id: 1,
+        tracking_number: 'ABC12345',
+        exp_deliver_date: new Date('2023-11-24'),
+        emp_id: 'EMP001',
+        exp_cost: 100,
+        delivery_fees: 20,
+        message: 'Please deliver this order ASAP.'
+      },
+      {
+        _id: 1,
+        tracking_number: 'ABC12345',
+        exp_deliver_date: new Date('2023-11-24'),
+        emp_id: 'EMP001',
+        exp_cost: 100,
+        delivery_fees: 20,
+        message: 'Please deliver this order ASAP.'
+      },
+      {
+        _id: 1,
+        tracking_number: 'ABC12345',
+        exp_deliver_date: new Date('2023-11-24'),
+        emp_id: 'EMP001',
+        exp_cost: 100,
+        delivery_fees: 20,
+        message: 'Please deliver this order ASAP.'
+      },
+      {
+        _id: 1,
+        tracking_number: 'ABC12345',
+        exp_deliver_date: new Date('2023-11-24'),
+        emp_id: 'EMP001',
+        exp_cost: 100,
+        delivery_fees: 20,
+        message: 'Please deliver this order ASAP.'
+      },
+      {
+        _id: 1,
+        tracking_number: 'ABC12345',
+        exp_deliver_date: new Date('2023-11-24'),
+        emp_id: 'EMP001',
+        exp_cost: 100,
+        delivery_fees: 20,
+        message: 'Please deliver this order ASAP.'
+      },
+      {
+        _id: 1,
+        tracking_number: 'ABC12345',
+        exp_deliver_date: new Date('2023-11-24'),
+        emp_id: 'EMP001',
+        exp_cost: 100,
+        delivery_fees: 20,
+        message: 'Please deliver this order ASAP.'
+      },
+      ],*/
     }
   },
-
   mounted() {
   this.fetchOrders(); // Define this method to fetch orders
   },
@@ -46,16 +98,26 @@ export default {
       }
     },
     async fetchOrders() {
-    try {
-      const response = await axios.get('http://localhost:3000/orders');
-      console.log(response.data)
-      this.OrdersArray = response.data;
-    } catch (error) {
-      console.error('Error fetching orders:', error);
-    }
-  },
-
-
+      try {
+        const response = await axios.get('http://localhost:3000/orders');
+        console.log(response.data);
+        this.OrdersArray = response.data;
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+      }
+    },
+  formattedDate(datetimeDB) {
+      const dt = DateTime.fromISO(datetimeDB, {
+        zone: 'utc'
+      })
+      return dt
+        .setZone(DateTime.now().zoneName, { keepLocalTime: true })
+        .toLocaleString()
+    },
+    // method to allow click through table to event details
+    /*editOrder(orderID) {
+      this.$router.push({ name: 'orderdetails', params: { id: orderID } })
+    },*/
   validations() {
     return {
       event: {
@@ -76,7 +138,7 @@ export default {
 <template>
   <div class="page-container">
     <div class="contentpage">
-      <form @submit.prevent="sendEmail">
+      <form handleSubmitForm>
         <h2>Welcome to the Orders page.</h2>
           <p>Click on a logo to track an order.</p>
             
@@ -159,34 +221,15 @@ export default {
                   <tbody class="divide-y divide-gray-300" >
                     <tr  v-for="orders in OrdersArray" :key="orders._id">
                       <td class="p-2 text-left">{{ orders.tracking_number}}</td>
-                      <td class="p-2 text-left">{{ formattedDate(orders.exp_deliver_date) }}</td>
-                      <td class="p-2 text-left">{{ orders.emp_id}}</td>
-                      <td class="p-2 text-left">{{ orders.exp_cost}}</td>
+                      <td class="p-2 text-left">{{ formattedDate(orders.expected_deliver_date) }}</td>
+                      <td class="p-2 text-left">{{ orders.employee_id}}</td>
+                      <td class="p-2 text-left">{{ orders.expected_cost}}</td>
                       <td class="p-2 text-left">{{ orders.delivery_fees}}</td>
                       <td class="p-2 text-left">{{ orders.message}}</td>
                     </tr>
                   </tbody>
                 </table>
                 <div>
-                  <!--add &&!error back-->
-                  <!-- Start of loading animation -->
-                  <div class="mt-40" v-if="loading">
-                    <p class="text-6xl font-bold text-center text-gray-500 animate-pulse">
-                      Loading...
-                    </p>
-                  </div>
-                  <!-- End of loading animation -->
-
-                  <!-- Start of error alert -->
-                  <div class="mt-12 bg-red-50" v-if="error">
-                    <h3 class="px-4 py-1 text-4xl font-bold text-white bg-red-800">
-                      {{ error.title }}
-                    </h3>
-                    <p class="p-4 text-lg font-bold text-red-900">
-                      {{ error.message }}
-                    </p>
-                  </div>
-                  <!-- End of error alert -->
                 </div>
               </div>
             </div>
@@ -250,25 +293,7 @@ export default {
       border: 2px solid #6aa9e5;
       border-radius: 12px;
     }
-    .most-hugest-container {
-      display: grid;
-      grid-template-columns: repeat(1, minmax(0, 1fr)); /* Default for all screen sizes */
-      gap: 1.5rem; /* Adjust the gap according to your design */
 
-      /* Responsive settings */
-      @media (min-width: 640px) {
-        grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 columns on small screens */
-      }
-
-      @media (min-width: 768px) {
-        grid-template-columns: repeat(4, minmax(0, 1fr)); /* 4 columns on medium screens */
-      }
-    }
-    .ml-10 {
-      .ml-10 {
-        margin-left: 5px; /* Adjust the value as needed */
-      }
-    }
     input[type="text"],
     input[type="email"],
     input[type="date"],

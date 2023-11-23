@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const routes = express.Router();
 const router = express.Router();
+const cors = require('cors');
 // Database Connection
 
 const mysql = require('mysql');
@@ -14,7 +15,7 @@ const connection = mysql.createConnection({
 
 const app = express();
 
-
+app.use(cors());
 app.use('/', routes);
 app.use(express.json()); 
 app.use(morgan('dev'));

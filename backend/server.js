@@ -1,5 +1,8 @@
 // backend/server.js
 
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+
 // Import required modules
 const express = require('express');
 const cors = require('cors');
@@ -13,7 +16,6 @@ const port = 3000;
 
 // Enable Cross-Origin Resource Sharing (CORS)
 app.use(cors());
-
 // Parse incoming JSON requests
 app.use(express.json());
 
@@ -57,11 +59,6 @@ app.get('/drivers', (req, res) => {
       res.json(results);
     }
   });
-    const query = 'SELECT * FROM drivers';
-    connection.query(query, (err, results) => {
-      if (err) throw err;
-      res.json(results);
-    });
 });
 // Other API endpoints can be defined here...
 
@@ -109,5 +106,5 @@ app.post('/orders', (req, res) => {
 
 // Start the server and listen on the specified port
 app.listen(port, () => {
-  console.log(`Server is running on port 5173`);
+  console.log(`Server is running on port 3000`);
 });
