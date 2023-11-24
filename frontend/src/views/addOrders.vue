@@ -12,6 +12,17 @@ export default {
   data() {   
     return {
       OrdersArray: [],
+      form: {
+      tracking_number: '',
+      delivery_service: 'UPS', // Default value for the select
+      expected_delivery_date: '',
+      employee_id: '',
+      expected_cost: '',
+      delivery_fees: '',
+      message: '',
+      extra_fees: 'no', // Default value for radio
+      },
+      showConfirmation: false,
     /*OrdersArray: [
       {
         _id: 1,
@@ -87,7 +98,7 @@ export default {
     async handleSubmitForm() {
       try {
         // Send form data to the backend API
-        const response = await this.$axios.post('/orders', this.orders);
+        const response = await axios.post('http://localhost:3000/orders', this.form);
 
         // Handle the response (you can update the UI accordingly)
         console.log('API response:', response.data);
@@ -117,7 +128,7 @@ export default {
     // method to allow click through table to event details
     /*editOrder(orderID) {
       this.$router.push({ name: 'orderdetails', params: { id: orderID } })
-    },*/
+    },
   validations() {
     return {
       event: {
@@ -125,7 +136,7 @@ export default {
         date: { required }
       }
     }
-  },
+  },*/
   name: 'FormView',
   components: {
     FooterComponent
@@ -138,7 +149,7 @@ export default {
 <template>
   <div class="page-container">
     <div class="contentpage">
-      <form handleSubmitForm>
+      <form @submit.prevent="handleSubmitForm">
         <h2>Welcome to the Orders page.</h2>
           <p>Click on a logo to track an order.</p>
             
@@ -160,36 +171,36 @@ export default {
           <p>Fill out the form below with the order details to log the order in the database.</p>
           <!--Form Entries Start Here-->
               <label for="name">Tracking Number:</label>
-                <input type="text" name="name" id="name" required><br><br>
+              <input v-model="form.tracking_number" type="text" name="name" id="name" required><br><br>
 
               <div class="center-dropdown">
                 <label for="commtype1">Delivery Service</label><br>
-                <select name="commtype1" id="commtype1" class="custom-select">
-                    <option value="volvo">UPS</option>
-                    <option value="saab">FedEx</option>
-                    <option value="opel">USPS</option>
+                <select v-model="form.delivery_service" name="commtype1" id="commtype1" class="custom-select">
+                    <option value="UPS">UPS</option>
+                    <option value="FedEx">FedEx</option>
+                    <option value="USPS">USPS</option>
                 </select><br><br>        
               </div>
 
               <label for="Expected_Date">Expected Delivery Date:</label>
-                <input type="date" name="date" placeholder="Hiring Date" id="date" required>
+              <input v-model="form.expected_delivery_date" type="date" name="date" placeholder="Hiring Date" id="date" required>
 
               <label for="empid">Driver ID</label>
-                <input type="number" name="empid" placeholder="Employee ID" id="empid" required>
+              <input v-model="form.employee_id" type="number" name="empid" placeholder="Employee ID" id="empid" required>
 
               <label for="money">Estimated Total Cost:</label>
-                <input type="text" id="money" name="money" placeholder="$0.00" />
+              <input v-model="form.expected_cost" type="text" id="money" name="money" placeholder="$0.00" />
 
               <div class="center-radio">
               <h2>Were there extra fees?</h2>
-              <input type="radio" id="yes" name="wip" value="yes">
+              <input v-model="form.extra_fees" type="radio" id="yes" value="yes">
                 <label for="yes" class="radio">yes</label>
-              <input type="radio" id="no" name="wip" value="no">
+              <input v-model="form.extra_fees" type="radio" id="no" value="no">
                 <label for="no" class="radio">no</label><br>
               </div>
 
               <label for="message">Message:</label>
-                <textarea id="message" name="message" rows="8" required></textarea>
+                <textarea v-model="form.message" id="message" name="message" rows="8" required></textarea>
 
               <button type="submit">Submit</button>
               <div v-if="showConfirmation" class="confirmation-message">
@@ -219,7 +230,7 @@ export default {
                     </tr>
                   </thead>
                   <tbody class="divide-y divide-gray-300" >
-                    <tr  v-for="orders in OrdersArray" :key="orders._id">
+                    <tr v-for="orders in OrdersArray" :key="orders._id">
                       <td class="p-2 text-left">{{ orders.tracking_number}}</td>
                       <td class="p-2 text-left">{{ formattedDate(orders.expected_deliver_date) }}</td>
                       <td class="p-2 text-left">{{ orders.employee_id}}</td>

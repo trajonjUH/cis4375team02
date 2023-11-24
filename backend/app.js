@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const routes = express.Router();
 const router = express.Router();
@@ -19,6 +20,7 @@ app.use(cors());
 app.use('/', routes);
 app.use(express.json()); 
 app.use(morgan('dev'));
+app.use(bodyParser.json());
 
 app.get('/orders', (req, res) => {
   const query = 'SELECT * FROM orders';
@@ -55,7 +57,7 @@ app.post('/orders', (req, res) => {
     message,
   } = req.body;
 
-  const query = `INSERT INTO orders (
+  const sql = `INSERT INTO orders (
     tracking_number,
     delivery_service,
     expected_delivery_date,
@@ -65,23 +67,14 @@ app.post('/orders', (req, res) => {
     message
   ) VALUES (?, ?, ?, ?, ?, ?, ?)`;
 
-  const values = [
-    tracking_number,
-    delivery_service,
-    expected_delivery_date,
-    employee_id,
-    expected_cost,
-    delivery_fees,
-    message,
-  ];
 
-  connection.query(query, values, (err, results) => {
-    if (err) {
-      console.error('Error executing MySQL query:', err);
-      res.status(500).send('Error creating order');
+  connection.query(sql, [tracking_number, delivery_service, expected_delivery_date, employee_id, expected_cost, delivery_fees, message], (err, results) => {
+    if (err) throw err;
+
+    if (results.affectedRows > 0) {
+      res.status(201).send('Order created successfully');
     } else {
-      console.log('Order created successfully');
-      res.status(201).json({ orderId: results.insertId });
+      res.status(500).send('Failed to create order');
     }
   });
 });
